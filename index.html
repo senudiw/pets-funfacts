@@ -22,6 +22,14 @@
             margin: auto; /* Center the container */
         }
 
+        .fact-box {
+            background-color: #e0f7fa; /* Light blue background */
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5); /* Blue shadow */
+            padding: 15px;
+            margin: 10px 0;
+        }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -41,8 +49,10 @@
 <body>
     <div class="container">
         <h1>Random Fun Facts</h1>
-        <p id="fact"></p>
-        <button id="generate-fact">Generate Fact</button>
+        <div id="fact1" class="fact-box"></div>
+        <div id="fact2" class="fact-box"></div>
+        <div id="fact3" class="fact-box"></div>
+        <button id="generate-fact">Generate Facts</button>
     </div>
 
     <script>
@@ -59,33 +69,18 @@
             "Chinchillas have the densest fur of any land animal, which helps them stay warm in their native habitats."
         ];
 
-        let attempts = 0;
-        const button = document.getElementById('generate-fact');
-        const factDisplay = document.getElementById('fact');
-
-        button.addEventListener('click', function() {
-            attempts++;
-            if (attempts <= 3) {
-                // Move the button randomly within the container
-                const container = document.querySelector('.container');
-                const containerRect = container.getBoundingClientRect();
-                const buttonRect = button.getBoundingClientRect();
-                
-                const maxX = containerRect.width - buttonRect.width;
-                const maxY = containerRect.height - buttonRect.height;
-
-                const randomX = Math.random() * maxX;
-                const randomY = Math.random() * maxY;
-
-                button.style.position = 'absolute';
-                button.style.left = `${randomX}px`;
-                button.style.top = `${randomY}px`;
-            } else {
-                // Display a random fact after 3 attempts
+        document.getElementById('generate-fact').addEventListener('click', function() {
+            const randomIndices = [];
+            while (randomIndices.length < 3) {
                 const randomIndex = Math.floor(Math.random() * facts.length);
-                factDisplay.textContent = facts[randomIndex];
-                button.style.position = 'static'; // Reset button position
+                if (!randomIndices.includes(randomIndex)) {
+                    randomIndices.push(randomIndex);
+                }
             }
+
+            document.getElementById('fact1').textContent = facts[randomIndices[0]];
+            document.getElementById('fact2').textContent = facts[randomIndices[1]];
+            document.getElementById('fact3').textContent = facts[randomIndices[2]];
         });
     </script>
 </body>
